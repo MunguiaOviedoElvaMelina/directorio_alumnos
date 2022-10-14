@@ -1,8 +1,10 @@
 package com.example.listado
 
+import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.example.listado.databinding.ActivityMainBinding
 import com.example.listado.databinding.ActivityMainNuevoBinding
 
@@ -13,10 +15,38 @@ class MainActivityNuevo : AppCompatActivity() {
         binding= ActivityMainNuevoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val txtNom= binding.txtNombre.text
-        val txtCue= binding.txtCuenta.text
-        val txtCorr=binding.txtCorreo.text
-        val txtImg=binding.txtImage.text
+        var dbconex= DBHelperAlumno(this)
+        binding.btnGuardar.setOnClickListener {
+            var db = dbconex.writableDatabase
+
+            val txtNom = binding.txtNombre.text.toString()
+            val txtCue = binding.txtCuenta.text.toString()
+            val txtCorr = binding.txtCorreo.text.toString()
+            val txtImg = binding.txtImage.text.toString()
+
+            /*val sql="INSERT INTO alumnos (nombre, cuenta, correo, imagen) VALUES('$txtNom','$txtCue','$txtNom')"
+        val status =db.execSQL(sql)*/
+
+            val newReg = ContentValues()
+            newReg.put("nombre", txtNom) //nombre de la base de datos, de la interfaz
+            newReg.put("cuenta", txtCue)
+            newReg.put("correo", txtCorr)
+            newReg.put("imagen", txtImg)
+            val res = db.insert("alumnos", null, newReg)
+            if (res.toInt()==-1){
+                Toast.makeText(this, "no se inserto el registro ",Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(this, "s inserto el registro ",Toast.LENGTH_LONG).show()
+            }
+            db.close()
+        }
+
+        dbconex.close()
+
+
+         /*
+
+
         //recepcion de extras
         val parExtra = intent.extras
         var  miVar=  parExtra?.getString("idA")
@@ -37,7 +67,7 @@ class MainActivityNuevo : AppCompatActivity() {
             intento2.putExtra("imagen", "${txtImg}")
             startActivity(intento2)
 
-        }
+        }*/
 
     }
 }

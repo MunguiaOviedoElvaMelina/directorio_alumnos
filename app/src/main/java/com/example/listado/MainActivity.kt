@@ -30,16 +30,26 @@ class MainActivity : AppCompatActivity() {
         val recycler: RecyclerView= binding.recycle
         val faButton = binding.faButton
 
+        //creamos la conexion
+        val dbconex= DBHelperAlumno(this)
+        //abrimos la base de dato para leer
+        val db= dbconex.readableDatabase
+        //declaramos un cursor oara recorrer los registros en la table
+        val cursor= db.rawQuery("SELECT * FROM alumnos", null)
+
+        if (cursor.moveToFirst())
+
+
         recycler.layoutManager = LinearLayoutManager(this)
 
 
-
+/*
         Talumnos.add(Alumno("https://w7.pngwing.com/pngs/317/819/png-transparent-hermione-granger-with-book.png","Fabiola","20176989","mfabiola8@ucol.mx"))
         Talumnos.add(Alumno("https://e7.pngegg.com/pngimages/847/128/png-clipart-harry-potter-literary-series-garri-potter-j-k-rowling-lord-voldemort-harry-potter-and-the-philosopher-s-stone-hogwarts-train.png","daniel","20189885","rdaniel@ucol.mx"))
         Talumnos.add(Alumno("https://w7.pngwing.com/pngs/317/819/png-transparent-hermione-granger-with-book.png","diana","20199885","gdaniela6@ucol.mx"))
         Talumnos.add(Alumno("https://www.pngitem.com/pimgs/m/234-2342530_dracomalfoy-draco-malfoy-remixit-freetoedit-remixme-draco-malfoy.png","ulises","20156553","oulises4@ucol.mx"))
         Talumnos.add(Alumno("https://e7.pngegg.com/pngimages/847/128/png-clipart-harry-potter-literary-series-garri-potter-j-k-rowling-lord-voldemort-harry-potter-and-the-philosopher-s-stone-hogwarts-train.png","josew","20158945","vjosew58@ucol.mx"))
-
+*/
 
         recycler.adapter = adapter
 
@@ -57,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         val cuenta=parExtras?.getString("cuenta")
         val correo=parExtras?.getString("correo")
         val imagen=parExtras?.getString("imagen")
+        // updateIndex: Int =get.intent.extra("idA",0)
 
         if (msj=="Nuevo"){
             val insertIndex: Int = Talumnos.count()
@@ -70,7 +81,17 @@ class MainActivity : AppCompatActivity() {
 
             )
             adapter.notifyItemInserted(insertIndex)
-        } //else if (msj=="editar")
+        } /*else if (msj=="editar"){
+            Talumnos.set(updateIndex,
+            Alumno(
+                "${imagen}",
+                "${nombre}",
+                "${cuenta}",
+                "${correo}"
+
+            )
+                )
+        }*/
 
         //click en el boton
         faButton.setOnClickListener{
