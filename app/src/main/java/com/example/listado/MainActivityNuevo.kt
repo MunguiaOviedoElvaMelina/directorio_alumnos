@@ -15,9 +15,17 @@ class MainActivityNuevo : AppCompatActivity() {
         binding= ActivityMainNuevoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //abrimos la conexion
         var dbconex= DBHelperAlumno(this)
+
+        val intento2 = Intent(this,MainActivity::class.java)
+
+
+
         binding.btnGuardar.setOnClickListener {
+            //abrimos la bd para escribir
             var db = dbconex.writableDatabase
+
 
             val txtNom = binding.txtNombre.text.toString()
             val txtCue = binding.txtCuenta.text.toString()
@@ -27,16 +35,20 @@ class MainActivityNuevo : AppCompatActivity() {
             /*val sql="INSERT INTO alumnos (nombre, cuenta, correo, imagen) VALUES('$txtNom','$txtCue','$txtNom')"
         val status =db.execSQL(sql)*/
 
+            //alternativa 2
             val newReg = ContentValues()
             newReg.put("nombre", txtNom) //nombre de la base de datos, de la interfaz
-            newReg.put("cuenta", txtCue)
-            newReg.put("correo", txtCorr)
-            newReg.put("imagen", txtImg)
+            newReg.put("cuenta", txtCue) //nombre de la base de datos, de la interfaz
+            newReg.put("correo", txtCorr) //nombre de la base de datos, de la interfaz
+            newReg.put("imagen", txtImg) //nombre de la base de datos, de la interfaz
+
             val res = db.insert("alumnos", null, newReg)
+
             if (res.toInt()==-1){
-                Toast.makeText(this, "no se inserto el registro ",Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Error al insertar ",Toast.LENGTH_LONG).show()
             }else{
-                Toast.makeText(this, "s inserto el registro ",Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Registro insertado con Exito",Toast.LENGTH_LONG).show()
+                startActivity(intento2)
             }
             db.close()
         }

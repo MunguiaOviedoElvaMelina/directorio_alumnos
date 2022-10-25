@@ -6,14 +6,14 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class DBHelperAlumno (context: Context):SQLiteOpenHelper(context,DB_name, null,DB_version){
     companion object{
-        private var DB_name= "bdalumnos"
-        private var DB_version=1
-        private var nomTable="alumnos"
-        private var keyId ="id"
-        private var nom= "nombre"
-        private var cue="cuenta"
-        private var cor="correo"
-        private var img="imagen"
+        private val DB_name= "bdalumnos"
+        private val DB_version=1
+        private val nomTable="alumnos"
+        private val keyId ="id"
+        private val nom= "nombre"
+        private val cue="cuenta"
+        private val cor="correo"
+        private val img="imagen"
     }
     val SQLCreate: String="CREATE TABLE $nomTable ($keyId INTEGER PRIMARY KEY, $nom TEXT, $cue TEXT, $cor TEXT, $img TEXT)"
 

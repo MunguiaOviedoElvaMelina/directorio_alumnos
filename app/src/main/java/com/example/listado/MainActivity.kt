@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     val Talumnos =ArrayList <Alumno>()
 
     val adapter= AlumnoAdapter(this,Talumnos)
+    var idAlumno: Int =0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,14 +31,37 @@ class MainActivity : AppCompatActivity() {
         val recycler: RecyclerView= binding.recycle
         val faButton = binding.faButton
 
-        //creamos la conexion
+        //establecemos la conexion
         val dbconex= DBHelperAlumno(this)
+
         //abrimos la base de dato para leer
         val db= dbconex.readableDatabase
-        //declaramos un cursor oara recorrer los registros en la table
+
+        //declaramos un cursor para recorrer los registros en la table
         val cursor= db.rawQuery("SELECT * FROM alumnos", null)
 
-        if (cursor.moveToFirst())
+        if (cursor.moveToFirst()){
+            do {
+                idAlumno=cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+                var itemNom=cursor.getString(cursor.getColumnIndexOrThrow("nombre"))
+                var itemNCue=cursor.getString(cursor.getColumnIndexOrThrow("cuenta"))
+                var itemCorr=cursor.getString(cursor.getColumnIndexOrThrow("correo"))
+                var itemImg=cursor.getString(cursor.getColumnIndexOrThrow("imagen"))
+                Talumnos.add(
+                    Alumno("$itemImg",
+                    "$itemNom",
+                        "$itemNCue",
+                        "$itemCorr",
+
+                        )
+                )
+
+            }while (cursor.moveToNext())
+        }
+
+        cursor.close()
+        db.close()
+        dbconex.close()
 
 
         recycler.layoutManager = LinearLayoutManager(this)
